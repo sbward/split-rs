@@ -88,21 +88,35 @@ mod test {
 		recursive(input.as_slice(), &mut out, vec![1,1].as_slice());
 
 		for s in out.iter() {
-			for (j, n) in s.iter().enumerate() {
-				assert_eq!(j, 0); // Slice has 1 element
+			assert_eq!(s.len(), 1);
+
+			for n in s.iter() {
 				assert_eq!(*n, 10);
 			}
 		}
 	}
 
 	#[test]
-	fn test_split() {
+	fn test_split_vec() {
 		let input: Vec<uint> = vec![1,2,3,4];
 		let test = input.as_slice();
 
 		match split(input.as_slice(), 2) {
 			Ok(v)  => assert_eq!(v, vec![test[0..2], test[2..4]]),
 			Err(e) => panic!(e),
+		}
+	}
+
+	#[test]
+	fn test_split_array() {
+		let list = [0u, 1000];
+		let split = split(list.as_slice(), 10);
+
+		for (i, n) in split.iter().enumerate() {
+			for (j, _) in n.iter().enumerate() {
+				assert!(j <= 100);
+			}
+			assert!(i <= 10);
 		}
 	}
 }
